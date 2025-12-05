@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -31,38 +32,34 @@ public class NewInventoryActivity extends AppCompatActivity {
         products = db.getAllProducts();
 
         LinearLayout container = findViewById(R.id.container_product_rows);
-        Button calcBtn = findViewById(R.id.btn_calculate_diffs);
         Button saveBtn = findViewById(R.id.btn_save_inventory);
 
         for (int idx = 0; idx < products.size(); idx++) {
             Product p = products.get(idx);
 
+            // Fila en una sola línea: [label (peso 2)] [input conteo (peso 1)] [diferencia (peso 1)]
             LinearLayout row = new LinearLayout(this);
-            row.setOrientation(LinearLayout.VERTICAL);
+            row.setOrientation(LinearLayout.HORIZONTAL);
             row.setPadding(0, 12, 0, 12);
 
             TextView label = new TextView(this);
-            label.setText(p.code + " - " + p.name + " (stock actual: " + p.quantity + ")");
+            label.setSingleLine(true);
+            label.setEllipsize(TextUtils.TruncateAt.END);
+            label.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 2));
+            // Mostrar solo la cantidad entre paréntesis, sin el texto 'stock actual'
+            label.setText(p.code + " - " + p.name + " (" + p.quantity + ")");
             row.addView(label);
-
-            LinearLayout line2 = new LinearLayout(this);
-            line2.setOrientation(LinearLayout.HORIZONTAL);
-
-            TextView conteoLabel = new TextView(this);
-            conteoLabel.setText("Conteo: ");
-            line2.addView(conteoLabel);
 
             EditText input = new EditText(this);
             input.setHint("0");
             input.setInputType(InputType.TYPE_CLASS_NUMBER);
             input.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
-            line2.addView(input);
+            row.addView(input);
             countInputs.add(input);
 
-            row.addView(line2);
-
             TextView diff = new TextView(this);
-            diff.setText("Diferencia: -");
+            diff.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+            diff.setText("-");
             row.addView(diff);
             diffViews.add(diff);
 
@@ -82,7 +79,6 @@ public class NewInventoryActivity extends AppCompatActivity {
             container.addView(row);
         }
 
-        calcBtn.setOnClickListener(v -> calculateDifferences());
         saveBtn.setOnClickListener(v -> saveInventory());
     }
 
@@ -96,27 +92,21 @@ public class NewInventoryActivity extends AppCompatActivity {
             try {
                 counted = Integer.parseInt(txt);
             } catch (NumberFormatException e) {
-                diffView.setText("Diferencia: cantidad inválida");
+                diffView.setText("cantidad inválida");
                 diffView.setTextColor(0xFFB00020); // rojo error
                 return;
             }
         }
         int difference = counted - p.quantity;
         if (difference > 0) {
-            diffView.setText("Diferencia: Sobra " + difference);
+            diffView.setText("Sobra " + difference);
             diffView.setTextColor(0xFF2E7D32); // verde
         } else if (difference < 0) {
-            diffView.setText("Diferencia: Falta " + Math.abs(difference));
+            diffView.setText("Falta " + Math.abs(difference));
             diffView.setTextColor(0xFFB00020); // rojo
         } else {
-            diffView.setText("Diferencia: Exacto");
+            diffView.setText("Exacto");
             diffView.setTextColor(0xFF00796B); // teal OK
-        }
-    }
-
-    private void calculateDifferences() {
-        for (int i = 0; i < products.size(); i++) {
-            updateDifferenceFor(i);
         }
     }
 

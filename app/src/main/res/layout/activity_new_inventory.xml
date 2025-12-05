@@ -15,6 +15,8 @@
         android:textSize="20sp"
         android:textColor="@color/color_on_background" />
 
+    <!-- Fila de productos -->
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -32,12 +34,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="end">
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_calculate_diffs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Calcular diferencias"
-            android:layout_marginEnd="12dp" />
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_save_inventory"
             android:layout_width="wrap_content"
