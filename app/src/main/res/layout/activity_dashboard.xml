@@ -22,8 +22,9 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:weightSum="3">
+        android:weightSum="6">
 
+        <!-- Inventariar -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -46,6 +47,7 @@
                 android:layout_marginTop="8dp"/>
         </LinearLayout>
 
+        <!-- Inventarios -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -68,6 +70,7 @@
                 android:layout_marginTop="8dp"/>
         </LinearLayout>
 
+        <!-- Productos -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -86,6 +89,75 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Productos"
+                android:textColor="@color/color_on_background"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+
+        <!-- Categorías -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageButton
+                android:id="@+id/btn_view_categories"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:src="@drawable/ic_category"
+                android:tint="@color/color_on_surface"
+                android:contentDescription="Ver categorías"
+                android:background="@android:color/transparent" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Categorías"
+                android:textColor="@color/color_on_background"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+
+        <!-- Ingresos -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageButton
+                android:id="@+id/btn_view_ingresos"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:src="@drawable/ic_ingresos"
+                android:tint="@color/color_on_surface"
+                android:contentDescription="Ingresos"
+                android:background="@android:color/transparent" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ingresos"
+                android:textColor="@color/color_on_background"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+
+        <!-- Almacenes -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageButton
+                android:id="@+id/btn_view_warehouses"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:src="@drawable/ic_warehouse"
+                android:tint="@color/color_on_surface"
+                android:contentDescription="Almacenes"
+                android:background="@android:color/transparent" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Almacenes"
                 android:textColor="@color/color_on_background"
                 android:layout_marginTop="8dp"/>
         </LinearLayout>

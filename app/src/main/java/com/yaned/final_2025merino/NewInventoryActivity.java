@@ -5,39 +5,95 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.yaned.final_2025merino.api.ApiRepository;
+import com.yaned.final_2025merino.api.dto.BasicResponse;
+import com.yaned.final_2025merino.api.dto.ProductoDTO;
+import com.yaned.final_2025merino.api.dto.StockResponse;
+import com.yaned.final_2025merino.api.dto.InventarioDTO;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class NewInventoryActivity extends AppCompatActivity {
 
-    private DatabaseHelper db;
-    private List<Product> products;
+    private final List<ProductoDTO> products = new ArrayList<>();
     private final List<EditText> countInputs = new ArrayList<>();
     private final List<TextView> diffViews = new ArrayList<>();
+    private final List<TextView> stockViews = new ArrayList<>();
+    private final Map<Integer, Integer> stockPorProducto = new HashMap<>();
+    private LinearLayout container;
+    private ProgressBar progress;
+
+    private static final int ALMACEN_ID_POR_DEFECTO = 1; // ajusta según tu BD
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_inventory);
 
-        db = new DatabaseHelper(this);
-        products = db.getAllProducts();
-
-        LinearLayout container = findViewById(R.id.container_product_rows);
+        container = findViewById(R.id.container_product_rows);
         Button saveBtn = findViewById(R.id.btn_save_inventory);
+        progress = new ProgressBar(this);
 
+        cargarProductosRemotos();
+
+        saveBtn.setOnClickListener(v -> saveInventory());
+    }
+
+    private void cargarProductosRemotos() {
+        container.removeAllViews();
+        countInputs.clear();
+        diffViews.clear();
+        stockViews.clear();
+        stockPorProducto.clear();
+
+        // Indicador simple de carga
+        progress.setIndeterminate(true);
+        if (progress.getParent() == null) {
+            container.addView(progress);
+        }
+
+        new Thread(() -> {
+            try {
+                ApiRepository api = new ApiRepository();
+                List<ProductoDTO> remotos = api.listarProductos();
+                runOnUiThread(() -> {
+                    container.removeView(progress);
+                    if (remotos == null || remotos.isEmpty()) {
+                        Toast.makeText(this, "No hay productos en el servidor", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    products.clear();
+                    products.addAll(remotos);
+                    renderRows();
+                    cargarStockActual();
+                });
+            } catch (Exception e) {
+                runOnUiThread(() -> {
+                    container.removeView(progress);
+                    Toast.makeText(this, "Error cargando productos: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+            }
+        }).start();
+    }
+
+    private void renderRows() {
+        container.removeAllViews();
         for (int idx = 0; idx < products.size(); idx++) {
-            Product p = products.get(idx);
+            ProductoDTO p = products.get(idx);
 
-            // Fila en una sola línea: [label (peso 2)] [input conteo (peso 1)] [diferencia (peso 1)]
             LinearLayout row = new LinearLayout(this);
             row.setOrientation(LinearLayout.HORIZONTAL);
             row.setPadding(0, 12, 0, 12);
@@ -46,9 +102,15 @@ public class NewInventoryActivity extends AppCompatActivity {
             label.setSingleLine(true);
             label.setEllipsize(TextUtils.TruncateAt.END);
             label.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 2));
-            // Mostrar solo la cantidad entre paréntesis, sin el texto 'stock actual'
-            label.setText(p.code + " - " + p.name + " (" + p.quantity + ")");
+            label.setText(p.sku + " - " + p.nombre);
             row.addView(label);
+
+            // Stock actual
+            TextView stockView = new TextView(this);
+            stockView.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1));
+            stockView.setText("Stock: ...");
+            row.addView(stockView);
+            stockViews.add(stockView);
 
             EditText input = new EditText(this);
             input.setHint("0");
@@ -63,78 +125,111 @@ public class NewInventoryActivity extends AppCompatActivity {
             row.addView(diff);
             diffViews.add(diff);
 
-            // Actualizar automáticamente diferencias y color al escribir
             final int position = idx;
             input.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {}
-                @Override
-                public void afterTextChanged(Editable s) {
-                    updateDifferenceFor(position);
-                }
+                @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+                @Override public void afterTextChanged(Editable s) { updateDifferenceFor(position); }
             });
 
             container.addView(row);
         }
+    }
 
-        saveBtn.setOnClickListener(v -> saveInventory());
+    private void cargarStockActual() {
+        // Carga en lote: obtiene todos los inventarios y mapea stock por producto para el almacén por defecto
+        new Thread(() -> {
+            try {
+                ApiRepository api = new ApiRepository();
+                List<InventarioDTO> inventarios = api.listarInventarios();
+                // reconstruir mapa por producto sólo del almacén seleccionado
+                stockPorProducto.clear();
+                if (inventarios != null) {
+                    for (InventarioDTO inv : inventarios) {
+                        if (inv.almacen_id == ALMACEN_ID_POR_DEFECTO) {
+                            stockPorProducto.put(inv.producto_id, inv.stock);
+                        }
+                    }
+                }
+                runOnUiThread(() -> {
+                    // actualizar todas las filas con el stock correspondiente (o 0 si no hay)
+                    for (int idx = 0; idx < products.size(); idx++) {
+                        ProductoDTO p = products.get(idx);
+                        int stock = stockPorProducto.containsKey(p.id) ? stockPorProducto.get(p.id) : 0;
+                        TextView sv = stockViews.get(idx);
+                        sv.setText("Stock: " + stock);
+                        updateDifferenceFor(idx);
+                    }
+                });
+            } catch (Exception e) {
+                runOnUiThread(() -> {
+                    for (int idx = 0; idx < products.size(); idx++) {
+                        TextView sv = stockViews.get(idx);
+                        sv.setText("Stock: 0");
+                        updateDifferenceFor(idx);
+                    }
+                });
+            }
+        }).start();
     }
 
     private void updateDifferenceFor(int i) {
-        Product p = products.get(i);
         EditText input = countInputs.get(i);
         TextView diffView = diffViews.get(i);
+        ProductoDTO p = products.get(i);
+        int stock = stockPorProducto.containsKey(p.id) ? stockPorProducto.get(p.id) : 0;
         String txt = input.getText().toString().trim();
         int counted = 0;
         if (!txt.isEmpty()) {
-            try {
-                counted = Integer.parseInt(txt);
-            } catch (NumberFormatException e) {
+            try { counted = Integer.parseInt(txt); }
+            catch (NumberFormatException e) {
                 diffView.setText("cantidad inválida");
-                diffView.setTextColor(0xFFB00020); // rojo error
+                diffView.setTextColor(0xFFB00020);
                 return;
             }
         }
-        int difference = counted - p.quantity;
-        if (difference > 0) {
-            diffView.setText("Sobra " + difference);
-            diffView.setTextColor(0xFF2E7D32); // verde
-        } else if (difference < 0) {
-            diffView.setText("Falta " + Math.abs(difference));
-            diffView.setTextColor(0xFFB00020); // rojo
+        int diff = counted - stock;
+        if (counted > 0 || stock > 0) {
+            diffView.setText("Dif: " + diff);
+            diffView.setTextColor(diff >= 0 ? 0xFF2E7D32 : 0xFFB00020);
         } else {
-            diffView.setText("Exacto");
-            diffView.setTextColor(0xFF00796B); // teal OK
+            diffView.setText("-");
+            diffView.setTextColor(0xFF000000);
         }
     }
 
     private void saveInventory() {
-        List<InventoryItem> items = new ArrayList<>();
-        for (int i = 0; i < products.size(); i++) {
-            Product p = products.get(i);
-            EditText input = countInputs.get(i);
-            String txt = input.getText().toString().trim();
-            int counted = 0;
-            if (!txt.isEmpty()) {
-                try {
-                    counted = Integer.parseInt(txt);
-                } catch (NumberFormatException e) {
-                    Toast.makeText(this, "Cantidad inválida para " + p.name, Toast.LENGTH_SHORT).show();
-                    return;
+        String referencia = "Inventario " + System.currentTimeMillis();
+        new Thread(() -> {
+            ApiRepository api = new ApiRepository();
+            int enviados = 0;
+            for (int i = 0; i < products.size(); i++) {
+                ProductoDTO p = products.get(i);
+                EditText input = countInputs.get(i);
+                String txt = input.getText().toString().trim();
+                int counted = 0;
+                if (!txt.isEmpty()) {
+                    try { counted = Integer.parseInt(txt); } catch (Exception ignored) {}
                 }
+                int stock = stockPorProducto.getOrDefault(p.id, 0);
+                int ajuste = counted - stock; // enviar diferencia real
+                // Solo enviar si hay ajuste (puede ser 0)
+                try {
+                    Integer inventarioId = api.obtenerOCrearInventarioId(p.id, ALMACEN_ID_POR_DEFECTO);
+                    if (inventarioId == null) continue;
+                    BasicResponse resp = api.registrarMovimiento(inventarioId, "AJUSTE", ajuste, referencia, "Ajuste desde app Android");
+                    if (resp != null) enviados++;
+                } catch (Exception ignored) {}
             }
-            items.add(new InventoryItem(p.id, counted));
-        }
-
-        String invName = "Inventario " + System.currentTimeMillis();
-        long invId = db.createInventory(invName, items);
-        if (invId > 0) {
-            Toast.makeText(this, "Inventario guardado (ID: " + invId + ")", Toast.LENGTH_SHORT).show();
-            finish();
-        } else {
-            Toast.makeText(this, "Error al guardar inventario", Toast.LENGTH_SHORT).show();
-        }
+            final int enviadosFinal = enviados;
+            runOnUiThread(() -> {
+                if (enviadosFinal > 0) {
+                    Toast.makeText(this, "Inventario enviado: " + enviadosFinal + " items", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(this, "No se envió ningún conteo", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }).start();
     }
 }

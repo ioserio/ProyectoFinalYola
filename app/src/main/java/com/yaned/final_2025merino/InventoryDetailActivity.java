@@ -1,13 +1,11 @@
 package com.yaned.final_2025merino;
 
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.List;
 
 public class InventoryDetailActivity extends AppCompatActivity {
     @Override
@@ -24,10 +22,6 @@ public class InventoryDetailActivity extends AppCompatActivity {
         }
 
         ListView listView = findViewById(R.id.detail_list);
-        DatabaseHelper db = new DatabaseHelper(this);
-        List<DatabaseHelper.InventoryItemWithProduct> items = db.getInventoryItems(inventoryId);
-        ArrayAdapter<DatabaseHelper.InventoryItemWithProduct> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
-        listView.setAdapter(adapter);
+        Toast.makeText(this, "Detalle remoto de inventario: pendiente de endpoint API", Toast.LENGTH_LONG).show();
     }
 }
-
