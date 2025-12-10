@@ -12,7 +12,7 @@
         android:id="@+id/main_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bienvenido a la app de inventarios"
+        android:text="Bienvenido a la app de inventarios!!!"
         android:textAppearance="@style/TextAppearance.Final2025.Title"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
