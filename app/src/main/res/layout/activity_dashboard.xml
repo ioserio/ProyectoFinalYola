@@ -12,17 +12,19 @@
         android:id="@+id/txt_welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bienvenido"
+        android:text="@string/welcome"
         android:textSize="20sp"
         android:textColor="@color/color_on_background"
         android:paddingBottom="16dp" />
 
+    <!-- Fila 1: Inventariar + Inventarios -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:weightSum="6">
+        android:weightSum="2"
+        android:baselineAligned="false">
 
         <!-- Inventariar -->
         <LinearLayout
@@ -36,13 +38,13 @@
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:src="@drawable/ic_inventory"
-                android:tint="@color/color_on_surface"
-                android:contentDescription="Realizar inventario"
+                app:tint="@color/color_on_surface"
+                android:contentDescription="@string/label_inventory"
                 android:background="@android:color/transparent" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Inventariar"
+                android:text="@string/label_inventory"
                 android:textColor="@color/color_on_background"
                 android:layout_marginTop="8dp"/>
         </LinearLayout>
@@ -59,16 +61,27 @@
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:src="@drawable/ic_list"
-                android:tint="@color/color_on_surface"
-                android:contentDescription="Ver inventarios"
+                app:tint="@color/color_on_surface"
+                android:contentDescription="@string/title_inventories"
                 android:background="@android:color/transparent" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Inventarios"
+                android:text="@string/label_inventarios"
                 android:textColor="@color/color_on_background"
                 android:layout_marginTop="8dp"/>
         </LinearLayout>
+    </LinearLayout>
+
+    <!-- Fila 2: Productos + Categorías -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:weightSum="2"
+        android:layout_marginTop="16dp"
+        android:baselineAligned="false">
 
         <!-- Productos -->
         <LinearLayout
@@ -82,13 +95,13 @@
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:src="@drawable/ic_products"
-                android:tint="@color/color_on_surface"
-                android:contentDescription="Ver productos"
+                app:tint="@color/color_on_surface"
+                android:contentDescription="@string/title_products"
                 android:background="@android:color/transparent" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Productos"
+                android:text="@string/label_productos"
                 android:textColor="@color/color_on_background"
                 android:layout_marginTop="8dp"/>
         </LinearLayout>
@@ -105,16 +118,27 @@
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:src="@drawable/ic_category"
-                android:tint="@color/color_on_surface"
-                android:contentDescription="Ver categorías"
+                app:tint="@color/color_on_surface"
+                android:contentDescription="@string/label_categorias"
                 android:background="@android:color/transparent" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Categorías"
+                android:text="@string/label_categorias"
                 android:textColor="@color/color_on_background"
                 android:layout_marginTop="8dp"/>
         </LinearLayout>
+    </LinearLayout>
+
+    <!-- Fila 3: Ingresos + Almacenes -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:weightSum="2"
+        android:layout_marginTop="16dp"
+        android:baselineAligned="false">
 
         <!-- Ingresos -->
         <LinearLayout
@@ -123,18 +147,20 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center">
+
             <ImageButton
                 android:id="@+id/btn_view_ingresos"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/label_ingresos"
                 android:src="@drawable/ic_ingresos"
-                android:tint="@color/color_on_surface"
-                android:contentDescription="Ingresos"
-                android:background="@android:color/transparent" />
+                app:tint="@color/color_on_surface" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ingresos"
+                android:text="@string/label_ingresos"
                 android:textColor="@color/color_on_background"
                 android:layout_marginTop="8dp"/>
         </LinearLayout>
@@ -151,13 +177,13 @@
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:src="@drawable/ic_warehouse"
-                android:tint="@color/color_on_surface"
-                android:contentDescription="Almacenes"
+                app:tint="@color/color_on_surface"
+                android:contentDescription="@string/label_almacenes"
                 android:background="@android:color/transparent" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Almacenes"
+                android:text="@string/label_almacenes"
                 android:textColor="@color/color_on_background"
                 android:layout_marginTop="8dp"/>
         </LinearLayout>

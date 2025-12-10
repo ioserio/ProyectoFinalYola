@@ -5,9 +5,25 @@
     <string name="hint_password">Contraseña</string>
     <string name="action_login">Entrar</string>
     <string name="welcome">Bienvenido</string>
+
+    <!-- Labels del dashboard -->
+    <string name="label_inventariar">Inventariar</string>
+    <string name="label_inventarios">Inventarios</string>
+    <string name="label_productos">Productos</string>
+    <string name="label_categorias">Categorías</string>
+    <string name="label_ingresos">Ingresos</string>
+    <string name="label_almacenes">Almacenes</string>
+
+    <!-- Content descriptions -->
+    <string name="cd_new_inventory">Realizar inventario</string>
+    <string name="cd_view_inventories">Ver inventarios</string>
+    <string name="cd_view_products">Ver productos</string>
+    <string name="cd_view_categories">Ver categorías</string>
+    <string name="cd_view_ingresos">Ver ingresos</string>
+    <string name="cd_view_warehouses">Ver almacenes</string>
+
+    <!-- Otros existentes -->
     <string name="label_inventory">Inventariar</string>
-    <string name="label_inventories">Inventarios</string>
-    <string name="label_products">Productos</string>
     <string name="title_new_inventory">Nuevo inventario</string>
     <string name="hint_inventory_name">Nombre del inventario</string>
     <string name="action_save">Guardar</string>
