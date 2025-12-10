@@ -1,12 +1,17 @@
 package com.yaned.final_2025merino;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.yaned.final_2025merino.api.ApiRepository;
@@ -16,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InventoriesListActivity extends AppCompatActivity {
-    private ArrayAdapter<String> adapter;
-    private final List<String> items = new ArrayList<>();
+    private ArrayAdapter<InventarioDTO> adapter;
+    private final List<InventarioDTO> items = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +32,32 @@ public class InventoriesListActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.list_inventories);
         ProgressBar progress = findViewById(R.id.progress_inventories);
 
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, items);
+        adapter = new ArrayAdapter<InventarioDTO>(this, R.layout.item_inventory, items) {
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View row = convertView;
+                if (row == null) {
+                    LayoutInflater inflater = LayoutInflater.from(getContext());
+                    row = inflater.inflate(R.layout.item_inventory, parent, false);
+                }
+
+                InventarioDTO inv = getItem(position);
+                TextView tvSku = row.findViewById(R.id.tv_sku);
+                TextView tvProducto = row.findViewById(R.id.tv_producto);
+                TextView tvAlmacen = row.findViewById(R.id.tv_almacen);
+                TextView tvStock = row.findViewById(R.id.tv_stock);
+
+                if (inv != null) {
+                    tvSku.setText(inv.sku != null ? inv.sku : "");
+                    tvProducto.setText(inv.nombre_producto != null ? inv.nombre_producto : "");
+                    tvAlmacen.setText(inv.nombre_almacen != null ? inv.nombre_almacen : "");
+                    tvStock.setText(String.valueOf(inv.stock));
+                }
+
+                return row;
+            }
+        };
         listView.setAdapter(adapter);
 
         loadInventories(progress);
@@ -43,10 +73,7 @@ public class InventoriesListActivity extends AppCompatActivity {
                     progress.setVisibility(View.GONE);
                     items.clear();
                     if (remotos != null) {
-                        for (InventarioDTO inv : remotos) {
-                            String line = inv.sku + " - " + inv.nombre_producto + " | Almacén: " + inv.nombre_almacen + " | Stock: " + inv.stock;
-                            items.add(line);
-                        }
+                        items.addAll(remotos);
                         adapter.notifyDataSetChanged();
                     } else {
                         Toast.makeText(this, "No se pudieron cargar inventarios", Toast.LENGTH_SHORT).show();
@@ -61,4 +88,3 @@ public class InventoriesListActivity extends AppCompatActivity {
         }).start();
     }
 }
-

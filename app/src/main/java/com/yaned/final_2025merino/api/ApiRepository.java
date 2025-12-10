@@ -6,6 +6,7 @@ import com.yaned.final_2025merino.api.dto.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Response;
 
@@ -87,20 +88,6 @@ public class ApiRepository {
     }
 
     @Nullable
-    public BasicResponse registrarIngreso(int almacenId, String referencia, String comentario, String itemsJson) throws IOException {
-        Response<BasicResponse> r = service.registrarIngreso(almacenId, referencia, comentario, itemsJson).execute();
-        if (!r.isSuccessful()) {
-            BasicResponse br = new BasicResponse();
-            br.success = false;
-            String body = null;
-            try { body = r.errorBody() != null ? r.errorBody().string() : null; } catch (Exception ignored) {}
-            br.msg = body != null && !body.isEmpty() ? body : ("HTTP " + r.code());
-            return br;
-        }
-        return r.body();
-    }
-
-    @Nullable
     public BasicResponse agregarAlmacen(String nombre, String ubicacion) throws IOException {
         Response<BasicResponse> r = service.agregarAlmacen(nombre, ubicacion).execute();
         if (!r.isSuccessful()) {
@@ -115,8 +102,46 @@ public class ApiRepository {
     }
 
     @Nullable
+    public BasicResponse registrarIngreso(int almacenId, String referencia, String comentario, String itemsJson) throws IOException {
+        Response<BasicResponse> r = service.registrarIngreso(almacenId, referencia, comentario, itemsJson).execute();
+        if (!r.isSuccessful()) {
+            BasicResponse br = new BasicResponse();
+            br.success = false;
+            String body = null;
+            try { body = r.errorBody() != null ? r.errorBody().string() : null; } catch (Exception ignored) {}
+            br.msg = body != null && !body.isEmpty() ? body : ("HTTP " + r.code());
+            return br;
+        }
+        return r.body();
+    }
+
+    @Nullable
+    public BasicResponse guardarInventarioRegistros(String inventarioRef, Integer almacenId, List<Map<String, Object>> items) throws IOException {
+        java.util.Map<String, Object> payload = new java.util.HashMap<>();
+        if (inventarioRef != null) payload.put("inventario_ref", inventarioRef);
+        if (almacenId != null) payload.put("almacen_id", almacenId);
+        payload.put("items", items);
+        Response<BasicResponse> r = service.guardarInventarioRegistros(payload).execute();
+        if (!r.isSuccessful()) {
+            BasicResponse br = new BasicResponse();
+            br.success = false;
+            String body = null;
+            try { body = r.errorBody() != null ? r.errorBody().string() : null; } catch (Exception ignored) {}
+            br.msg = body != null && !body.isEmpty() ? body : ("HTTP " + r.code());
+            return br;
+        }
+        return r.body();
+    }
+
+    @Nullable
     public List<InventarioDTO> listarInventarios() throws IOException {
         Response<List<InventarioDTO>> r = service.listarInventarios().execute();
+        return r.isSuccessful() ? r.body() : null;
+    }
+
+    @Nullable
+    public com.yaned.final_2025merino.api.dto.LoginResponse login(String correo, String clave) throws IOException {
+        Response<com.yaned.final_2025merino.api.dto.LoginResponse> r = service.login(correo, clave).execute();
         return r.isSuccessful() ? r.body() : null;
     }
 }

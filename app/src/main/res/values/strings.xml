@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">Final_2025Merino</string>
     <string name="title_login">Inicio de sesión</string>
-    <string name="hint_username">Usuario</string>
+    <string name="hint_username">Nombre o correo</string>
     <string name="hint_password">Contraseña</string>
     <string name="action_login">Entrar</string>
     <string name="welcome">Bienvenido</string>
 
     <!-- Labels del dashboard -->
     <string name="label_inventariar">Inventariar</string>
-    <string name="label_inventarios">Inventarios</string>
+    <string name="label_inventarios">Stock</string>
     <string name="label_productos">Productos</string>
     <string name="label_categorias">Categorías</string>
     <string name="label_ingresos">Ingresos</string>
@@ -16,7 +16,7 @@
 
     <!-- Content descriptions -->
     <string name="cd_new_inventory">Realizar inventario</string>
-    <string name="cd_view_inventories">Ver inventarios</string>
+    <string name="cd_view_inventories">Ver stock</string>
     <string name="cd_view_products">Ver productos</string>
     <string name="cd_view_categories">Ver categorías</string>
     <string name="cd_view_ingresos">Ver ingresos</string>
@@ -27,6 +27,12 @@
     <string name="title_new_inventory">Nuevo inventario</string>
     <string name="hint_inventory_name">Nombre del inventario</string>
     <string name="action_save">Guardar</string>
-    <string name="title_inventories">Inventarios</string>
+    <string name="title_inventories">Stock</string>
     <string name="title_products">Productos</string>
+
+    <!-- Encabezados para lista de stock -->
+    <string name="header_sku">SKU</string>
+    <string name="header_producto">Producto</string>
+    <string name="header_almacen">Almacén</string>
+    <string name="header_stock">Stock</string>
 </resources>

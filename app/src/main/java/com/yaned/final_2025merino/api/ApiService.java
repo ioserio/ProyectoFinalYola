@@ -2,6 +2,7 @@ package com.yaned.final_2025merino.api;
 
 import com.yaned.final_2025merino.api.dto.*;
 import java.util.List;
+import java.util.Map;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -92,4 +93,9 @@ public interface ApiService {
 
     @GET("listar_inventarios.php")
     Call<List<InventarioDTO>> listarInventarios();
+
+    // Inventarios: enviar registros de inventario en lote (JSON)
+    @Headers("Content-Type: application/json")
+    @POST("guardar_inventario_registros.php")
+    Call<BasicResponse> guardarInventarioRegistros(@Body Map<String, Object> payload);
 }

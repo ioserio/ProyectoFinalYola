@@ -202,7 +202,7 @@ public class NewInventoryActivity extends AppCompatActivity {
         String referencia = "Inventario " + System.currentTimeMillis();
         new Thread(() -> {
             ApiRepository api = new ApiRepository();
-            int enviados = 0;
+            java.util.List<java.util.Map<String, Object>> itemsPayload = new java.util.ArrayList<>();
             for (int i = 0; i < products.size(); i++) {
                 ProductoDTO p = products.get(i);
                 EditText input = countInputs.get(i);
@@ -212,24 +212,30 @@ public class NewInventoryActivity extends AppCompatActivity {
                     try { counted = Integer.parseInt(txt); } catch (Exception ignored) {}
                 }
                 int stock = stockPorProducto.getOrDefault(p.id, 0);
-                int ajuste = counted - stock; // enviar diferencia real
-                // Solo enviar si hay ajuste (puede ser 0)
-                try {
-                    Integer inventarioId = api.obtenerOCrearInventarioId(p.id, ALMACEN_ID_POR_DEFECTO);
-                    if (inventarioId == null) continue;
-                    BasicResponse resp = api.registrarMovimiento(inventarioId, "AJUSTE", ajuste, referencia, "Ajuste desde app Android");
-                    if (resp != null) enviados++;
-                } catch (Exception ignored) {}
+
+                java.util.Map<String, Object> item = new java.util.HashMap<>();
+                item.put("producto_id", p.id);
+                item.put("sku", p.sku);
+                item.put("descripcion", p.nombre);
+                item.put("stock_real", stock);
+                item.put("conteo", counted);
+                itemsPayload.add(item);
             }
-            final int enviadosFinal = enviados;
-            runOnUiThread(() -> {
-                if (enviadosFinal > 0) {
-                    Toast.makeText(this, "Inventario enviado: " + enviadosFinal + " items", Toast.LENGTH_SHORT).show();
-                    finish();
-                } else {
-                    Toast.makeText(this, "No se envió ningún conteo", Toast.LENGTH_SHORT).show();
-                }
-            });
+
+            try {
+                BasicResponse resp = api.guardarInventarioRegistros(referencia, ALMACEN_ID_POR_DEFECTO, itemsPayload);
+                runOnUiThread(() -> {
+                    if (resp != null && resp.success) {
+                        Toast.makeText(this, "Inventario guardado: " + (resp.msg != null ? resp.msg : "ok"), Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        String m = (resp != null && resp.msg != null) ? resp.msg : "Error al guardar";
+                        Toast.makeText(this, m, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } catch (Exception e) {
+                runOnUiThread(() -> Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            }
         }).start();
     }
 }
