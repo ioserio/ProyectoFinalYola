@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme con colores Material definidos -->
-    <style name="Base.Theme.Final_2025Merino" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.Final_2025Merino" parent="Theme.Material3.DayNight.NoActionBar" tools:targetApi="31">
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorOnPrimary">@color/color_on_primary</item>
         <item name="colorSecondary">@color/color_secondary</item>
@@ -12,6 +12,12 @@
         <item name="android:windowBackground">@color/color_background</item>
         <item name="materialButtonStyle">@style/Widget.Final2025.MaterialButton</item>
         <item name="textInputStyle">@style/Widget.Final2025.TextInputLayout</item>
+
+        <!-- Splash screen (Android 12+) -->
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/icono</item>
+        <item name="android:windowSplashScreenBackground">@color/color_background</item>
+        <!-- Opcional: tamaño del icono; si quieres forzarlo a 48dp -->
+        <!-- <item name="android:windowSplashScreenIconSize">48dp</item> -->
     </style>
 
     <style name="Theme.Final_2025Merino" parent="Base.Theme.Final_2025Merino" />
