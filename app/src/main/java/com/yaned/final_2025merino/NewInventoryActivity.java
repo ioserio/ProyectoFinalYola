@@ -42,6 +42,11 @@ public class NewInventoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_inventory);
+        View headerContainer = findViewById(R.id.header_container);
+        if (headerContainer != null) {
+            TextView header = headerContainer.findViewById(R.id.header_title);
+            if (header != null) header.setText(getString(R.string.title_new_inventory));
+        }
 
         container = findViewById(R.id.container_product_rows);
         Button saveBtn = findViewById(R.id.btn_save_inventory);

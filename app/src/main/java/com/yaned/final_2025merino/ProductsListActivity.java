@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +30,11 @@ public class ProductsListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products_list);
+        View headerContainer = findViewById(R.id.header_container);
+        if (headerContainer != null) {
+            TextView header = headerContainer.findViewById(R.id.header_title);
+            if (header != null) header.setText(getString(R.string.title_products));
+        }
 
         ListView listView = findViewById(R.id.list_products);
         ProgressBar progress = findViewById(R.id.progress_products);

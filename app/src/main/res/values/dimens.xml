@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="header_height">64dp</dimen>
+    <dimen name="header_padding">20dp</dimen>
+    <dimen name="header_text_size">22sp</dimen>
+</resources>
+

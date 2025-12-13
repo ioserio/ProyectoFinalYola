@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Final_2025Merino</string>
+    <string name="app_name">Rapinventario</string>
     <string name="title_login">Inicio de sesión</string>
     <string name="hint_username">Nombre o correo</string>
     <string name="hint_password">Contraseña</string>
@@ -29,6 +29,9 @@
     <string name="action_save">Guardar</string>
     <string name="title_inventories">Stock</string>
     <string name="title_products">Productos</string>
+    <string name="title_categories">Categorías</string>
+    <string name="title_ingresos">Ingresos</string>
+    <string name="title_warehouses">Almacenes</string>
 
     <!-- Encabezados para lista de stock -->
     <string name="header_sku">SKU</string>

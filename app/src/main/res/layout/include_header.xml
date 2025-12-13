@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:background="@drawable/bg_header"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp">
+
+    <!-- Título de la barra superior con tipografía personalizada y color de texto -->
+    <TextView
+        android:id="@+id/header_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.02"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/color_on_primary"
+        android:text="" />
+
+    <!-- Línea inferior transparente para separación sutil -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="bottom"
+        android:background="@android:color/transparent"/>
+</FrameLayout>

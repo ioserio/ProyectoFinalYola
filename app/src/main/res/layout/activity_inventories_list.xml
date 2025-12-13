@@ -7,12 +7,10 @@
     android:padding="24dp"
     android:background="@color/color_background">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/title_inventories"
-        android:textSize="20sp"
-        android:textColor="@color/color_on_background" />
+    <!-- Encabezado profesional -->
+    <include
+        android:id="@+id/header_container"
+        layout="@layout/include_header" />
 
     <ProgressBar
         android:id="@+id/progress_inventories"

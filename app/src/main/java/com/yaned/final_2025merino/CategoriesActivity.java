@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +28,11 @@ public class CategoriesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
+        View headerContainer = findViewById(R.id.header_container);
+        if (headerContainer != null) {
+            TextView header = headerContainer.findViewById(R.id.header_title);
+            if (header != null) header.setText(getString(R.string.title_categories));
+        }
 
         ListView listView = findViewById(R.id.list_categories);
         ProgressBar progress = findViewById(R.id.progress_categories);
@@ -104,4 +110,3 @@ public class CategoriesActivity extends AppCompatActivity {
                 .show();
     }
 }
-

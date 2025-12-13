@@ -42,6 +42,11 @@ public class IngresosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingresos);
+        View headerContainer = findViewById(R.id.header_container);
+        if (headerContainer != null) {
+            TextView header = headerContainer.findViewById(R.id.header_title);
+            if (header != null) header.setText(getString(R.string.title_ingresos));
+        }
 
         productoSpinner = findViewById(R.id.spinner_producto);
         cantidadInput = findViewById(R.id.input_cantidad);

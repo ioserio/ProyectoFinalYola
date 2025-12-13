@@ -28,6 +28,11 @@ public class InventoriesListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inventories_list);
+        View headerContainer = findViewById(R.id.header_container);
+        if (headerContainer != null) {
+            TextView header = headerContainer.findViewById(R.id.header_title);
+            if (header != null) header.setText(getString(R.string.title_inventories));
+        }
 
         ListView listView = findViewById(R.id.list_inventories);
         ProgressBar progress = findViewById(R.id.progress_inventories);

@@ -7,13 +7,10 @@
     android:padding="24dp"
     android:background="@color/color_background">
 
-    <TextView
-        android:id="@+id/title_new_inventory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/title_new_inventory"
-        android:textSize="20sp"
-        android:textColor="@color/color_on_background" />
+    <!-- Encabezado profesional -->
+    <include
+        android:id="@+id/header_container"
+        layout="@layout/include_header" />
 
     <!-- Fila de productos -->
 
