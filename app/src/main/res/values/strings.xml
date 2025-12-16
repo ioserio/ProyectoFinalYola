@@ -27,7 +27,7 @@
     <string name="title_new_inventory">Nuevo inventario</string>
     <string name="hint_inventory_name">Nombre del inventario</string>
     <string name="action_save">Guardar</string>
-    <string name="title_inventories">Stock</string>
+    <string name="title_inventories">Inventarios</string>
     <string name="title_products">Productos</string>
     <string name="title_categories">Categorías</string>
     <string name="title_ingresos">Ingresos</string>
@@ -38,4 +38,5 @@
     <string name="header_producto">Producto</string>
     <string name="header_almacen">Almacén</string>
     <string name="header_stock">Stock</string>
+    <string name="header_Inventarios">Inventarios</string>
 </resources>

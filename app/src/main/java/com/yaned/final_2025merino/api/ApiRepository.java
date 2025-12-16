@@ -3,12 +3,14 @@ package com.yaned.final_2025merino.api;
 import androidx.annotation.Nullable;
 
 import com.yaned.final_2025merino.api.dto.*;
+import com.yaned.final_2025merino.api.dto.InventarioRegistroDTO; // import explícito
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import retrofit2.Response;
+import okhttp3.ResponseBody; // agregado para manejar errorBody
 
 public class ApiRepository {
     private final ApiService service;
@@ -17,12 +19,24 @@ public class ApiRepository {
         this.service = ApiClient.get().create(ApiService.class);
     }
 
+    // Helper para leer el cuerpo de error cerrando correctamente el ResponseBody
+    private String readErrorBody(Response<?> r) {
+        try {
+            ResponseBody rb = r.errorBody();
+            if (rb == null) return null;
+            try (ResponseBody ignored = rb) {
+                return rb.string();
+            }
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     @Nullable
     public List<ProductoDTO> listarProductos() throws IOException {
         Response<List<ProductoDTO>> r = service.listarProductos().execute();
         if (!r.isSuccessful()) {
-            String body = null;
-            try { body = r.errorBody() != null ? r.errorBody().string() : null; } catch (Exception ignored) {}
+            String body = readErrorBody(r);
             throw new IOException(body != null && !body.isEmpty() ? body : ("HTTP " + r.code()));
         }
         return r.body();
@@ -65,8 +79,7 @@ public class ApiRepository {
         if (!r.isSuccessful()) {
             BasicResponse br = new BasicResponse();
             br.success = false;
-            String body = null;
-            try { body = r.errorBody() != null ? r.errorBody().string() : null; } catch (Exception ignored) {}
+            String body = readErrorBody(r);
             br.msg = body != null && !body.isEmpty() ? body : ("HTTP " + r.code());
             return br;
         }
@@ -79,8 +92,7 @@ public class ApiRepository {
         if (!r.isSuccessful()) {
             BasicResponse br = new BasicResponse();
             br.success = false;
-            String body = null;
-            try { body = r.errorBody() != null ? r.errorBody().string() : null; } catch (Exception ignored) {}
+            String body = readErrorBody(r);
             br.msg = body != null && !body.isEmpty() ? body : ("HTTP " + r.code());
             return br;
         }
@@ -93,8 +105,7 @@ public class ApiRepository {
         if (!r.isSuccessful()) {
             BasicResponse br = new BasicResponse();
             br.success = false;
-            String body = null;
-            try { body = r.errorBody() != null ? r.errorBody().string() : null; } catch (Exception ignored) {}
+            String body = readErrorBody(r);
             br.msg = body != null && !body.isEmpty() ? body : ("HTTP " + r.code());
             return br;
         }
@@ -107,8 +118,7 @@ public class ApiRepository {
         if (!r.isSuccessful()) {
             BasicResponse br = new BasicResponse();
             br.success = false;
-            String body = null;
-            try { body = r.errorBody() != null ? r.errorBody().string() : null; } catch (Exception ignored) {}
+            String body = readErrorBody(r);
             br.msg = body != null && !body.isEmpty() ? body : ("HTTP " + r.code());
             return br;
         }
@@ -125,8 +135,7 @@ public class ApiRepository {
         if (!r.isSuccessful()) {
             BasicResponse br = new BasicResponse();
             br.success = false;
-            String body = null;
-            try { body = r.errorBody() != null ? r.errorBody().string() : null; } catch (Exception ignored) {}
+            String body = readErrorBody(r);
             br.msg = body != null && !body.isEmpty() ? body : ("HTTP " + r.code());
             return br;
         }
@@ -142,6 +151,12 @@ public class ApiRepository {
     @Nullable
     public com.yaned.final_2025merino.api.dto.LoginResponse login(String correo, String clave) throws IOException {
         Response<com.yaned.final_2025merino.api.dto.LoginResponse> r = service.login(correo, clave).execute();
+        return r.isSuccessful() ? r.body() : null;
+    }
+
+    @Nullable
+    public List<InventarioRegistroDTO> listarInventarioRegistros() throws IOException {
+        Response<List<InventarioRegistroDTO>> r = service.listarInventarioRegistros().execute();
         return r.isSuccessful() ? r.body() : null;
     }
 }

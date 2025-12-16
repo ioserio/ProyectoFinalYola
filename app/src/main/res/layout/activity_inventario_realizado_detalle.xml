@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@color/color_background">
+
+    <include
+        android:id="@+id/header_container"
+        layout="@layout/include_header" />
+
+    <TextView
+        android:id="@+id/tv_ref"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Inventario ref"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:paddingTop="12dp"
+        android:textColor="@color/color_on_background"/>
+
+    <ProgressBar
+        android:id="@+id/progress_detalle"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:visibility="gone" />
+
+    <!-- Encabezado comprimido sin scroll -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="12dp"
+        android:background="@color/color_surface"
+        android:padding="8dp">
+
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="0.8" android:textStyle="bold" android:textColor="@color/color_on_surface" android:text="SKU"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1.6" android:textStyle="bold" android:textColor="@color/color_on_surface" android:text="Descripción"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="0.8" android:textStyle="bold" android:textColor="@color/color_on_surface" android:text="Stock"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="0.8" android:textStyle="bold" android:textColor="@color/color_on_surface" android:text="Conteo"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1.0" android:textStyle="bold" android:textColor="@color/color_on_surface" android:text="Diferencia"/>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_detalle"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="8dp"/>
+</LinearLayout>

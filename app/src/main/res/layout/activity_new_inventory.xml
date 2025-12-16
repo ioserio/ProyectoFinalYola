@@ -12,6 +12,8 @@
         android:id="@+id/header_container"
         layout="@layout/include_header" />
 
+    <!-- Acción para ver inventarios realizados -->
+
     <!-- Fila de productos -->
 
     <ScrollView
@@ -31,11 +33,20 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="end">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_view_inventories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="110dp"
+            android:text="Ver inventarios" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_save_inventory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/action_save" />
+
     </LinearLayout>
 
 </LinearLayout>

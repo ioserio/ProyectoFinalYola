@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/tv_sku"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.8"
+        android:textColor="@color/color_on_background" />
+
+    <TextView
+        android:id="@+id/tv_descripcion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.6"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/color_on_background" />
+
+    <TextView
+        android:id="@+id/tv_stock_real"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.8"
+        android:textColor="@color/color_on_background" />
+
+    <TextView
+        android:id="@+id/tv_conteo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.8"
+        android:textColor="@color/color_on_background" />
+
+    <TextView
+        android:id="@+id/tv_diferencia"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:textColor="@color/color_on_background" />
+</LinearLayout>
+

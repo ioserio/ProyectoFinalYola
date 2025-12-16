@@ -39,6 +39,8 @@
 
         <!-- Conservamos MainActivity si se usa en otro flujo (no launcher) -->
         <activity android:name=".MainActivity" android:exported="false" />
+        <activity android:name=".InventariosRealizadosActivity" android:exported="false" />
+        <activity android:name=".InventarioRealizadoDetalleActivity" android:exported="false" />
     </application>
 
 </manifest>

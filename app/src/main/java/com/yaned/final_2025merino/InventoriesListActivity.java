@@ -31,7 +31,7 @@ public class InventoriesListActivity extends AppCompatActivity {
         View headerContainer = findViewById(R.id.header_container);
         if (headerContainer != null) {
             TextView header = headerContainer.findViewById(R.id.header_title);
-            if (header != null) header.setText(getString(R.string.title_inventories));
+            if (header != null) header.setText(getString(R.string.header_stock));
         }
 
         ListView listView = findViewById(R.id.list_inventories);

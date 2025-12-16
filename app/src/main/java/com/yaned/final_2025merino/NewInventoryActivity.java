@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Intent; // agregado
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -51,6 +52,15 @@ public class NewInventoryActivity extends AppCompatActivity {
         container = findViewById(R.id.container_product_rows);
         Button saveBtn = findViewById(R.id.btn_save_inventory);
         progress = new ProgressBar(this);
+
+        // Botón Ver inventarios
+        Button viewInventoriesBtn = findViewById(R.id.btn_view_inventories);
+        if (viewInventoriesBtn != null) {
+            viewInventoriesBtn.setOnClickListener(v -> {
+                Intent intent = new Intent(NewInventoryActivity.this, InventariosRealizadosActivity.class);
+                startActivity(intent);
+            });
+        }
 
         cargarProductosRemotos();
 

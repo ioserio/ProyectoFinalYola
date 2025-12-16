@@ -98,4 +98,7 @@ public interface ApiService {
     @Headers("Content-Type: application/json")
     @POST("guardar_inventario_registros.php")
     Call<BasicResponse> guardarInventarioRegistros(@Body Map<String, Object> payload);
+
+    @GET("listar_inventario_registros.php")
+    Call<List<InventarioRegistroDTO>> listarInventarioRegistros();
 }
